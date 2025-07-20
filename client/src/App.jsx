@@ -1,12 +1,14 @@
 import './App.css'
-import { Button } from "@/components/ui/button"
 import Login from './pages/login'
+import Navbar from './components/ui/Navbar'
+
 function App() {
 
   return (
-    <Login />
-
+    <main>
+      <Navbar />
+          <Login />
+    </main>
   )
 }
-
 export default App
