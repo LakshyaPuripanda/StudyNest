@@ -26,23 +26,17 @@ const Profile = () => {
                     </Avatar>
                 </div>
                 <div>
-                    <div className="mb-2">
-                        <h1 className="font-semibold text-gray-900 dark:text-gray-100 ">
-                            Name:
-                            <span className="font-normal text-gray-700 dark:text-gray-300 ml-2"> Sahil </span>
-                        </h1>
+                    <div className="mb-2 flex">
+                        <span className="w-20 font-semibold text-gray-900 dark:text-gray-100">Name:</span>
+                        <span className="text-gray-700 dark:text-gray-300">Sahil</span>
                     </div>
-                    <div className="mb-2">
-                        <h1 className="font-semibold text-gray-900 dark:text-gray-100 ">
-                            Email:
-                            <span className="font-normal text-gray-700 dark:text-gray-300 ml-2">sahil@gmail.com </span>
-                        </h1>
+                    <div className="mb-2 flex">
+                        <span className="w-20 font-semibold text-gray-900 dark:text-gray-100">Email:</span>
+                        <span className="text-gray-700 dark:text-gray-300">sahil@gmail.com</span>
                     </div>
-                    <div className="mb-2">
-                        <h1 className="font-semibold text-gray-900 dark:text-gray-100 ">
-                            Role:
-                            <span className="font-normal text-gray-700 dark:text-gray-300 ml-2"> INSTRUCTOR </span>
-                        </h1>
+                    <div className="mb-2 flex">
+                        <span className="w-20 font-semibold text-gray-900 dark:text-gray-100">Role:</span>
+                        <span className="text-gray-700 dark:text-gray-300">INSTRUCTOR</span>
                     </div>
                     <Dialog>
                         <DialogTrigger asChild>
@@ -79,7 +73,7 @@ const Profile = () => {
                             </div>
                             <DialogFooter>
                                 <Button
-                                disabled = {isLoading}
+                                    disabled={isLoading}
                                 >
                                     {isLoading ? (
                                         <>
@@ -98,14 +92,14 @@ const Profile = () => {
             <div>
                 <h1>Courses you're enrolled in </h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-5">
-          {enrolledCourses.length === 0 ? (
-            <h1>You haven't enrolled yet</h1>
-          ) : (
-            enrolledCourses.map((course,index) => (
-              <Course key={index} />
-            ))
-          )}
-        </div>
+                    {enrolledCourses.length === 0 ? (
+                        <h1>You haven't enrolled yet</h1>
+                    ) : (
+                        enrolledCourses.map((course, index) => (
+                            <Course key={index} />
+                        ))
+                    )}
+                </div>
             </div>
         </div>
 

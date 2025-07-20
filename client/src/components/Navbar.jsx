@@ -72,7 +72,7 @@ const Navbar = () => {
                   <DropdownMenuItem>Log out</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                <DropdownMenuItem> <Link to = "/"> Dashboard </Link> </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
