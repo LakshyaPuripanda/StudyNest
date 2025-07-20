@@ -20,13 +20,16 @@ import {
 import { useEffect, useState } from "react"
 import { useLoginUserMutation, useRegisterUserMutation } from "@/features/api/authApi"
 import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
     const [signupInput, setSignupInput] = useState({ name: "", email: "", password: "" });
     const [loginInput, setLoginInput] = useState({ email: "", password: "" });
 
-    const [registerUser, { data: registerData, error: registerError, isLoading: registerIsLoading, isSuccess: registerIsSuccess, }] = useRegisterUserMutation()
-    const [loginUser, { data: loginData, error: loginError, isLoading: loginIsLoading, isSuccess: loginIsSucess }] = useLoginUserMutation();
+    const [registerUser, { data: registerData, error: registerError, isLoading: registerIsLoading, isSuccess: registerIsSuccess, }, ] = useRegisterUserMutation();
+    const [loginUser, { data: loginData, error: loginError, isLoading: loginIsLoading, isSuccess: loginIsSucess },] = useLoginUserMutation();
+    console.log(loginData);
+    const navigate = useNavigate();
     const changeInputHandler = (e, type) => {
         const { name, value } = e.target;
         if (type == "signup") {
@@ -46,13 +49,17 @@ const Login = () => {
             toast.success(registerData.message || "Signup successful.")
         }
         if(registerError){
-            toast.error(registerData.data.message || "Signup Failed");
+            const message = registerError?.data?.message || "Signup Failed";
+            toast.error(message);
         }
         if(loginIsSucess && loginData){
             toast.success(loginData.message || "Login successful.")
+            console.log("Success")
+            navigate("/");
         }
         if(loginError){
-            toast.error(loginData.data.message || "Login Failed");
+            const message = loginError?.data?.message || "Login Failed";
+            toast.error(message);
         }
     }, [loginIsLoading, registerIsLoading, loginData, registerData, loginError, registerData])
 
@@ -138,7 +145,7 @@ const Login = () => {
                                 />
                             </div>
                             <div className="grid gap-3">
-                                <Label htmlFor="tabs-demo-new">New password</Label>
+                                <Label htmlFor="tabs-demo-new">Password</Label>
                                 <Input
                                     type="password"
                                     name="password"

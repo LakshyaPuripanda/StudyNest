@@ -11,7 +11,7 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { Menu, School } from 'lucide-react';
 
-import { Button } from './button';
+import { Button } from './ui/button';
 import {
   Avatar,
   AvatarFallback,
@@ -32,7 +32,6 @@ import {
 
 const Navbar = () => {
   const user = true;
-  const role = 'instructor'
 
   return (
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
@@ -102,18 +101,18 @@ const MobileNavbar = () => {
     <Sheet>
       <div className="flex items-center px-4 h-full"> {/* Added this div for positioning */}
         <SheetTrigger asChild>
-          <Button size='icon' className='rounded-full bg-gray-200 hover:bg-gray-200' variant="outline">
+          <Button size='icon' className='rounded-full hover:bg-gray-200' variant="outline">
             <Menu />
           </Button>
         </SheetTrigger>
         {/* The rest of your mobile navbar content can go here if needed, or remain outside this div */}
       </div>
       <SheetContent className='flex flex-col'>
-        <SheetHeader className='flex flex-row items-center justify-between mt-2'>
+        <SheetHeader className='flex flex-row items-center justify-between mt-6'>
           <SheetTitle>StudyNest</SheetTitle>
           <DarkMode />
         </SheetHeader>
-        <Separator className='mr-2' />
+        <Separator className='mr-3' />
         <nav className="flex flex-col space-y-4">
           <span>My Learning</span>
           <span>Edit Profile</span>
