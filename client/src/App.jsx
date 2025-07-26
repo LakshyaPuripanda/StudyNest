@@ -8,6 +8,7 @@ import { RouterProvider } from 'react-router'
 import Courses from './pages/student/Courses'
 import MyLearning from './pages/student/MyLearning'
 import Profile from './pages/student/Profile'
+import Check from './pages/Check'
 
 const appRouter = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const appRouter = createBrowserRouter([
         element: (      
           <Profile />
         ),
+      },
+      {
+        path: "check",
+        element: <Check/>,
       }
     ],
   },

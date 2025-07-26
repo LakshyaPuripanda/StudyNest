@@ -1,4 +1,5 @@
-import React from 'react'
+import {React,useEffect} from 'react'
+import axios from 'axios'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -6,11 +7,29 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import Course from './Course';
+import { useLoadUserQuery } from '@/features/api/authApi';
 
 
 
 const Profile = () => {
-    const isLoading = false;
+    const {data, isLoading}= useLoadUserQuery();
+    console.log(data);
+    
+   useEffect(() => {
+    axios.get("http://localhost:8080/api/v1/user/profile", {
+      withCredentials: true // if your API uses cookies
+    })
+      .then(response => {
+            
+      })
+      .catch(err => {
+        setError("Failed to load profile");
+        setLoading(false);
+        console.error(err);
+      });
+  }, []);
+
+    // const isLoading = false;
     const enrolledCourses = [1];
     return (
         <div className="max-w-4xl mx-auto px-4 my-10">
