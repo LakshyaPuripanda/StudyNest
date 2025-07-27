@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,11 +28,24 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useLogoutUserMutation } from '@/features/api/authApi';
+import { toast } from 'sonner';
 
 const Navbar = () => {
   const user = true;
+  const [logoutUser, {data, isSuccess}] = useLogoutUserMutation();
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    await logoutUser();
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "Logged out successfully");
+      navigate("/login");
+    } 
+  }, [ isSuccess]);
 
   return (
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
@@ -68,11 +81,11 @@ const Navbar = () => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuGroup>
                   <DropdownMenuItem> <Link to="my-learning">My Learning</Link></DropdownMenuItem>
-                  <DropdownMenuItem> <Link to = "profile">Edit Profile</Link> </DropdownMenuItem>
-                  <DropdownMenuItem>Log out</DropdownMenuItem>
+                  <DropdownMenuItem> <Link to="profile">Edit Profile</Link> </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logoutHandler}>Log out</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem> <Link to = "/"> Dashboard </Link> </DropdownMenuItem>
+                <DropdownMenuItem> <Link to="/"> Dashboard </Link> </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

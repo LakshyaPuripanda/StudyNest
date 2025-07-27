@@ -1,5 +1,5 @@
-import {React,useEffect} from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -7,30 +7,63 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import Course from './Course';
-import { useLoadUserQuery } from '@/features/api/authApi';
+import { useLoadUserQuery, useUpdateUserMutation } from '@/features/api/authApi';
+import { toast } from 'sonner';
 
 
 
 const Profile = () => {
-    const {data, isLoading}= useLoadUserQuery();
+    const [name, setName] = useState("");
+    const [profilePhoto, setProfilePhoto] = useState("");
+    const { data, isLoading, refetch } = useLoadUserQuery();
     console.log(data);
-    
-   useEffect(() => {
-    axios.get("http://localhost:8080/api/v1/user/profile", {
-      withCredentials: true // if your API uses cookies
-    })
-      .then(response => {
-            
-      })
-      .catch(err => {
-        setError("Failed to load profile");
-        setLoading(false);
-        console.error(err);
-      });
-  }, []);
+    const [updateUser, { data: updateUserData, isLoading: updateUserIsLoading, error, isError, isSuccess }] = useUpdateUserMutation();
+
+    const onChangeHandler = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProfilePhoto(file);
+        }
+    }
+
+    const updateUserHandler = async () => {
+        console.log(name, profilePhoto, "checking name data and photo...");
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("profilePhoto", profilePhoto);
+        await updateUser(formData);
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            refetch();
+            toast.success(data.message || "Profile updated successfully");
+        }
+        if (error) {
+            toast.error(error.message || "Failed to update profile");
+        }
+    }, [error, updateUserData, isSuccess, isError]);
+    // useEffect(() => {
+    //     axios.get("http://localhost:8080/api/v1/user/profile", {
+    //         withCredentials: true // if your API uses cookies
+    //     })
+    //         .then(response => {
+
+    //         })
+    //         .catch(err => {
+    //             setError("Failed to load profile");
+    //             setLoading(false);
+    //             console.error(err);
+    //         });
+    // }, []);
 
     // const isLoading = false;
-    const enrolledCourses = [1];
+    // const enrolledCourses = [1];
+
+    if (isLoading) return <h1>Profile is Loading ...</h1>
+
+    const user = data?.user || {};
+
     return (
         <div className="max-w-4xl mx-auto px-4 my-10">
             <h1 className="font-bold text-2xl text-center md:text-left">PROFILE</h1>
@@ -38,7 +71,7 @@ const Profile = () => {
                 <div className="flex flex-col items-center">
                     <Avatar className="h-24 w-24 md:h-32 md:w-32 mb-4">
                         <AvatarImage
-                            src="https://github.com/shadcn.png"
+                            src={user.photoUrl || "https://github.com/shadcn.png"}
                             alt="@shadcn"
                         />
                         <AvatarFallback>CN</AvatarFallback>
@@ -47,15 +80,17 @@ const Profile = () => {
                 <div>
                     <div className="mb-2 flex">
                         <span className="w-20 font-semibold text-gray-900 dark:text-gray-100">Name:</span>
-                        <span className="text-gray-700 dark:text-gray-300">Sahil</span>
+                        <span className="text-gray-700 dark:text-gray-300">{user.name}</span>
                     </div>
                     <div className="mb-2 flex">
                         <span className="w-20 font-semibold text-gray-900 dark:text-gray-100">Email:</span>
-                        <span className="text-gray-700 dark:text-gray-300">sahil@gmail.com</span>
+                        <span className="text-gray-700 dark:text-gray-300">{user.email}</span>
                     </div>
                     <div className="mb-2 flex">
                         <span className="w-20 font-semibold text-gray-900 dark:text-gray-100">Role:</span>
-                        <span className="text-gray-700 dark:text-gray-300">INSTRUCTOR</span>
+                        <span className="text-gray-700 dark:text-gray-300">
+                            {user.role ? user.role.toUpperCase() : ""}
+                        </span>
                     </div>
                     <Dialog>
                         <DialogTrigger asChild>
@@ -76,6 +111,7 @@ const Profile = () => {
                                     <Label>Name</Label>
                                     <Input
                                         type="text"
+                                        value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         placeholder="Name"
                                         className="col-span-3"
@@ -84,6 +120,7 @@ const Profile = () => {
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <Label>Profile Photo</Label>
                                     <Input
+                                        onChange={onChangeHandler}
                                         type="file"
                                         accept="image/*"
                                         className="col-span-3"
@@ -92,9 +129,9 @@ const Profile = () => {
                             </div>
                             <DialogFooter>
                                 <Button
-                                    disabled={isLoading}
+                                    disabled={updateUserIsLoading} onClick={updateUserHandler}
                                 >
-                                    {isLoading ? (
+                                    {updateUserIsLoading ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
                                             wait
@@ -111,11 +148,11 @@ const Profile = () => {
             <div>
                 <h1>Courses you're enrolled in </h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-5">
-                    {enrolledCourses.length === 0 ? (
+                    {!user.enrolledCourses || user.enrolledCourses.length === 0 ? (
                         <h1>You haven't enrolled yet</h1>
                     ) : (
-                        enrolledCourses.map((course, index) => (
-                            <Course key={index} />
+                        user.enrolledCourses.map((course, index) => (
+                            <Course course={course} key={course._id} />
                         ))
                     )}
                 </div>
