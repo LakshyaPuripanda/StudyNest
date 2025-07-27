@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./database/db.js";
 import userRoute from "./routes/user.route.js"
+import courseRoute from "./routes/course.route.js";
 
 dotenv.config({});
 
@@ -23,13 +24,16 @@ app.use(cors({
 // apis
 
 app.use("/api/v1/user",userRoute)
+app.use("/api/v1/course",courseRoute)
 
+// test route
 app.get("/home",(_,res) => {
     res.status(200).json({
         success: true,
         message : "hello i am coming from backend"
     })
 })
+// test route end
 
 app.listen(PORT,()=>{
     console.log(`server listen at port ${PORT}`);
