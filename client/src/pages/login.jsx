@@ -26,7 +26,7 @@ const Login = () => {
     const [signupInput, setSignupInput] = useState({ name: "", email: "", password: "" });
     const [loginInput, setLoginInput] = useState({ email: "", password: "" });
 
-    const [registerUser, { data: registerData, error: registerError, isLoading: registerIsLoading, isSuccess: registerIsSuccess, }, ] = useRegisterUserMutation();
+    const [registerUser, { data: registerData, error: registerError, isLoading: registerIsLoading, isSuccess: registerIsSuccess, },] = useRegisterUserMutation();
     const [loginUser, { data: loginData, error: loginError, isLoading: loginIsLoading, isSuccess: loginIsSucess },] = useLoginUserMutation();
     console.log(loginData);
     const navigate = useNavigate();
@@ -45,19 +45,19 @@ const Login = () => {
     };
 
     useEffect(() => {
-        if(registerIsSuccess && registerData){
+        if (registerIsSuccess && registerData) {
             toast.success(registerData.message || "Signup successful.")
         }
-        if(registerError){
+        if (registerError) {
             const message = registerError?.data?.message || "Signup Failed";
             toast.error(message);
         }
-        if(loginIsSucess && loginData){
+        if (loginIsSucess && loginData) {
             toast.success(loginData.message || "Login successful.")
             console.log("Success")
             navigate("/");
         }
-        if(loginError){
+        if (loginError) {
             const message = loginError?.data?.message || "Login Failed";
             toast.error(message);
         }
@@ -81,7 +81,8 @@ const Login = () => {
                         <CardContent className="grid gap-6">
                             <div className="grid gap-3">
                                 <Label htmlFor="name">Name</Label>
-                                <Input
+                                <input
+                                    className="uiverse-input"
                                     type="text"
                                     name="name"
                                     value={signupInput.name}
@@ -91,7 +92,8 @@ const Login = () => {
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="tabs-demo-username">Email</Label>
-                                <Input
+                                <input
+                                    className="uiverse-input"
                                     type="email"
                                     name="email"
                                     value={signupInput.email}
@@ -102,7 +104,8 @@ const Login = () => {
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="tabs-demo-username">Password</Label>
-                                <Input
+                                <input
+                                    className="uiverse-input"
                                     type="password"
                                     name="password"
                                     value={signupInput.password}
@@ -135,18 +138,30 @@ const Login = () => {
                         <CardContent className="grid gap-6">
                             <div className="grid gap-3">
                                 <Label htmlFor="tabs-demo-current">Email</Label>
-                                <Input
+                                {/* <Input
                                     type="email"
                                     name="email"
                                     value={loginInput.email}
                                     onChange={(e) => changeInputHandler(e, "login")}
                                     placeholder="UserName or Email"
                                     required="true"
+                                /> */}
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={loginInput.email}
+                                    onChange={(e) => changeInputHandler(e, "login")}
+                                    placeholder="username or Email"
+                                    autoComplete="off"
+                                    required
+                                    className="uiverse-input"
                                 />
+
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="tabs-demo-new">Password</Label>
-                                <Input
+                                <input
+                                    className="uiverse-input"
                                     type="password"
                                     name="password"
                                     value={loginInput.password}
