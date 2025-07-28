@@ -22,7 +22,6 @@ const courseSchema = new mongoose.Schema({
      },
     coursePrice: {
         type: Number,
-        required: true
     },
     courseThumbnail: {
         type: String,

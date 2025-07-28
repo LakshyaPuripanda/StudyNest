@@ -59,12 +59,14 @@ const Navbar = () => {
       {/* Desktop */}
       <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full px-4">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <School size={30} />
+        <Link>
+       <div className="flex items-center gap-2">
+           <School size={30} />
           <h1 className="hidden md:block font-extrabold text-2xl">
             StudyNest
-          </h1>
+          </h1> 
         </div>
+         </Link>
 
         {/* Right side */}
         <div className="flex items-center gap-8">
