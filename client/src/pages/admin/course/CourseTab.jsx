@@ -31,8 +31,6 @@ const CourseTab = () => {
     const params = useParams();
     const courseId = params.courseId;
 
-    console.log("COURSE ID from params:", courseId); // ⛔ Is it undefined or "{course._id}"?
-
     const { data: courseByIdData, isLoading: courseByIdLoading } = 
         useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
 
