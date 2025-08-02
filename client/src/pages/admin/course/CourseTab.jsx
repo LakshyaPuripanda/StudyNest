@@ -12,8 +12,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useEditCourseMutation, useGetCourseByIdQuery } from '@/features/api/courseApi';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
 const CourseTab = () => {
     const [input, setInput] = useState({
@@ -23,10 +26,36 @@ const CourseTab = () => {
         category: "",
         courseLevel: "",
         coursePrice: "",
-        courseThumbnail: ""
+        courseThumbnail: "",
     });
+    const params = useParams();
+    const courseId = params.courseId;
+
+    console.log("COURSE ID from params:", courseId); // ⛔ Is it undefined or "{course._id}"?
+
+    const { data: courseByIdData, isLoading: courseByIdLoading } = 
+        useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+
+    
+    useEffect(() => {
+        if (courseByIdData?.course) {
+            const course = courseByIdData?.course;
+            setInput({
+                courseTitle: course.courseTitle,
+                subTitle: course.subTitle,
+                description: course.description,
+                category:course.category,
+                courseLevel: course.courseLevel,
+                coursePrice: course.coursePrize,
+                courseThumbnail: "",
+
+            })
+        }
+
+    }, [courseByIdData])
     const [previewThumbnail, setPreviewThumbnail] = useState("");
     const navigate = useNavigate();
+    const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
     const changeEventHandler = (e) => {
         const { name, value } = e.target;
         setInput({ ...input, [name]: value });
@@ -44,17 +73,37 @@ const CourseTab = () => {
     const selectThumbnail = (e) => {
         const file = e.target.files?.[0];
         if (file) {
-            setInput({ ...input, courseThumbnail:file });
+            setInput({ ...input, courseThumbnail: file });
             const fileReader = new FileReader();
             fileReader.onloadend = () => setPreviewThumbnail(fileReader.result);
             fileReader.readAsDataURL(file);
         }
     }
-    const updateCourseHandler = () => {
-        console.log(input)
-    }
+    const updateCourseHandler = async () => {
+        const formData = new FormData();
+        formData.append("courseTitle", input.courseTitle);
+        formData.append("subTitle", input.subTitle);
+        formData.append("description", input.description);
+        formData.append("category", input.category);
+        formData.append("courseLevel", input.courseLevel);
+        formData.append("coursePrice", input.coursePrice);
+        formData.append("courseThumbnail", input.courseThumbnail);
+
+        await editCourse({ formData, courseId });
+    };
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(data.message || "Course update.");
+        }
+        if (error) {
+            toast.error(error.data.message || "Failed to update course");
+        }
+    }, [isSuccess, error]);
+
+    if (courseByIdLoading) return <Loader2 className="h-4 w-4 animate-spin"/>
+
     const isPublished = false;
-    const isLoading = false;
+
     return (
         <Card>
             <CardHeader className="flex flex-row justify-between">
@@ -166,9 +215,9 @@ const CourseTab = () => {
                         />
                         {previewThumbnail && (
                             <img
-                                src={previewThumbnail} 
-                                className="h-64 my-2" 
-                                alt="Course Thumbnail" 
+                                src={previewThumbnail}
+                                className="h-64 my-2"
+                                alt="Course Thumbnail"
                             />
                         )}
                     </div>
