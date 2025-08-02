@@ -25,26 +25,33 @@ const CourseTab = () => {
         coursePrice: "",
         courseThumbnail: ""
     });
+    const [previewThumbnail, setPreviewThumbnail] = useState("");
     const navigate = useNavigate();
     const changeEventHandler = (e) => {
         const { name, value } = e.target;
         setInput({ ...input, [name]: value });
     };
 
-    const selectCategory = (value) =>{
-        setInput ({...input, category:value});
+    const selectCategory = (value) => {
+        setInput({ ...input, category: value });
     }
 
-    const selectCourseLevel = (value) =>{
-        setInput ({...input, courseLevel:value});
+    const selectCourseLevel = (value) => {
+        setInput({ ...input, courseLevel: value });
     }
 
     //get file
     const selectThumbnail = (e) => {
         const file = e.target.files?.[0];
-        if (file){
-            setInput({...input, courseThumbnail:file});
+        if (file) {
+            setInput({ ...input, courseThumbnail:file });
+            const fileReader = new FileReader();
+            fileReader.onloadend = () => setPreviewThumbnail(fileReader.result);
+            fileReader.readAsDataURL(file);
         }
+    }
+    const updateCourseHandler = () => {
+        console.log(input)
     }
     const isPublished = false;
     const isLoading = false;
@@ -72,7 +79,7 @@ const CourseTab = () => {
                         <Label>Course Title</Label>
                         <Input
                             type="text"
-                            name="CourseTitle"
+                            name="courseTitle"
                             value={input.courseTitle}
                             onChange={changeEventHandler}
                             placeholder="Ex. Fullstack Developer" />
@@ -81,7 +88,7 @@ const CourseTab = () => {
                         <Label>Subtitle</Label>
                         <Input
                             type="text"
-                            name="SubTitle"
+                            name="subTitle"
                             value={input.subTitle}
                             onChange={changeEventHandler}
                             placeholder="Ex. Become a Fullstack developer from zero to hero " />
@@ -122,7 +129,7 @@ const CourseTab = () => {
                         </div>
                         <div>
                             <Label>Course Level</Label>
-                            <Select onValueChange = {selectCourseLevel}>
+                            <Select onValueChange={selectCourseLevel}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Select a Course Level" />
                                 </SelectTrigger>
@@ -153,18 +160,26 @@ const CourseTab = () => {
                         <Label>Course Thumbnail</Label>
                         <Input
                             type="file"
+                            onChange={selectThumbnail}
                             accept="image/*"
-                            className="w=fit"
+                            className="w-fit"
                         />
+                        {previewThumbnail && (
+                            <img
+                                src={previewThumbnail} 
+                                className="h-64 my-2" 
+                                alt="Course Thumbnail" 
+                            />
+                        )}
                     </div>
                     <div>
                         <Button onClick={() => navigate("/admin/course")} variant="outline">Cancel</Button>
-                        <Button disabled ={isLoading}>
+                        <Button disabled={isLoading} onClick={updateCourseHandler}>
                             {
                                 isLoading ? (
                                     <>
-                                    <Loader2 className ="mr-2 h-4 w-4 animate-spin"/>
-                                    Please wait
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Please wait
                                     </>
                                 ) : (
                                     "Save"
