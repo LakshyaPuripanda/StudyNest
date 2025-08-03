@@ -28,6 +28,7 @@ const CourseTab = () => {
         coursePrice: "",
         courseThumbnail: "",
     });
+
     const params = useParams();
     const courseId = params.courseId;
 
@@ -46,14 +47,12 @@ const CourseTab = () => {
                 courseTitle: course.courseTitle,
                 subTitle: course.subTitle,
                 description: course.description,
-                category:course.category,
+                category: course.category,
                 courseLevel: course.courseLevel,
                 coursePrice: course.coursePrize,
                 courseThumbnail: "",
-
-            })
+            });
         }
-
     }, [courseByIdData])
 
     const [previewThumbnail, setPreviewThumbnail] = useState("");
@@ -66,11 +65,11 @@ const CourseTab = () => {
 
     const selectCategory = (value) => {
         setInput({ ...input, category: value });
-    }
+    };
 
     const selectCourseLevel = (value) => {
         setInput({ ...input, courseLevel: value });
-    }
+    };
 
     //get file
     const selectThumbnail = (e) => {
@@ -81,7 +80,7 @@ const CourseTab = () => {
             fileReader.onloadend = () => setPreviewThumbnail(fileReader.result);
             fileReader.readAsDataURL(file);
         }
-    }
+    };
     const updateCourseHandler = async () => {
         const formData = new FormData();
         formData.append("courseTitle", input.courseTitle);
@@ -225,7 +224,9 @@ const CourseTab = () => {
                         )}
                     </div>
                     <div>
-                        <Button onClick={() => navigate("/admin/course")} variant="outline">Cancel</Button>
+                        <Button onClick={() => navigate("/admin/course")} variant="outline">
+                            Cancel
+                        </Button>
                         <Button disabled={isLoading} onClick={updateCourseHandler}>
                             {
                                 isLoading ? (
@@ -238,12 +239,10 @@ const CourseTab = () => {
                                 )}
                         </Button>
                     </div>
-
                 </div>
             </CardContent>
         </Card>
+    );
+};
 
-    )
-}
-
-export default CourseTab
+export default CourseTab;
