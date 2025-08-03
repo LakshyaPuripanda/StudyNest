@@ -7,10 +7,6 @@ import { RouterProvider } from 'react-router'
 import Courses from './pages/student/Courses'
 import MyLearning from './pages/student/MyLearning'
 import Profile from './pages/student/Profile'
-import Sidebar from './pages/admin/Sidebar'
-import Dashboard from './pages/admin/Dashboard'
-import CourseTable from './pages/admin/course/CourseTable'
-import AddCourse from './pages/admin/course/AddCourse'
 
 import Check from './pages/Check'
 import Sidebar from './pages/admin/Sidebar'
@@ -51,13 +47,10 @@ const appRouter = createBrowserRouter([
           <Profile />
         ),
       },
-<<<<<<< Updated upstream
       {
         path: "check",
         element: <Check/>,
       },
-=======
->>>>>>> Stashed changes
       // admin routes start from here
       {
         path: "admin",
@@ -74,15 +67,11 @@ const appRouter = createBrowserRouter([
           {
             path:"course/create",
             element: <AddCourse/>
-<<<<<<< Updated upstream
           },
           {
             path:"course/:courseId",
             element:<EditCourse/>
           },
-=======
-          }
->>>>>>> Stashed changes
         ]
       }
     ],
