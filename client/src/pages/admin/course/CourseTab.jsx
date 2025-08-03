@@ -46,7 +46,7 @@ const CourseTab = () => {
                 description: course.description,
                 category: course.category,
                 courseLevel: course.courseLevel,
-                coursePrice: course.coursePrize,
+                coursePrice: course.coursePrice,
                 courseThumbnail: "",
             });
         }
