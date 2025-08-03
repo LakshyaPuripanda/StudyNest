@@ -32,13 +32,8 @@ const CourseTab = () => {
     const params = useParams();
     const courseId = params.courseId;
 
-    console.log(courseId);
-
-   const { data: courseByIdData, isLoading: courseByIdLoading } = 
-  useGetCourseByIdQuery(courseId);
-
-    console.log("isLloading:",courseByIdLoading);
-    console.log("data", courseByIdData);
+        const { data: courseByIdData, isLoading: courseByIdLoading } = 
+        useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
     
     useEffect(() => {
         if (courseByIdData?.course) {
