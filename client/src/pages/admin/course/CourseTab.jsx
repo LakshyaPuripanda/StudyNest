@@ -31,9 +31,13 @@ const CourseTab = () => {
     const params = useParams();
     const courseId = params.courseId;
 
-    const { data: courseByIdData, isLoading: courseByIdLoading } = 
-        useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+    console.log(courseId);
 
+   const { data: courseByIdData, isLoading: courseByIdLoading } = 
+  useGetCourseByIdQuery(courseId);
+
+    console.log("isLloading:",courseByIdLoading);
+    console.log("data", courseByIdData);
     
     useEffect(() => {
         if (courseByIdData?.course) {
@@ -51,6 +55,7 @@ const CourseTab = () => {
         }
 
     }, [courseByIdData])
+
     const [previewThumbnail, setPreviewThumbnail] = useState("");
     const navigate = useNavigate();
     const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
@@ -98,7 +103,7 @@ const CourseTab = () => {
         }
     }, [isSuccess, error]);
 
-    if (courseByIdLoading) return <Loader2 className="h-4 w-4 animate-spin"/>
+    if(courseByIdLoading) return <Loader2 className="h-4 w-4 animate-spin"/>
 
     const isPublished = false;
 
