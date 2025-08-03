@@ -34,6 +34,8 @@ const CourseTab = () => {
 
         const { data: courseByIdData, isLoading: courseByIdLoading } = 
         useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+
+        console.log("Data:", courseByIdData);
     
     useEffect(() => {
         if (courseByIdData?.course) {
