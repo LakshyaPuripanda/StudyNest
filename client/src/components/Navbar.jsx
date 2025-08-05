@@ -28,7 +28,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useLogoutUserMutation } from '@/features/api/authApi';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
@@ -51,7 +51,7 @@ const Navbar = () => {
   }, [isSuccess]);
 
   if (loading) {
-    return null; // or a spinner if you want
+    return null;
   }
 
   return (
@@ -60,13 +60,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full px-4">
         {/* Logo */}
         <Link>
-       <div className="flex items-center gap-2">
-           <School size={30} />
-          <h1 className="hidden md:block font-extrabold text-2xl">
-            StudyNest
-          </h1> 
-        </div>
-         </Link>
+          <div className="flex items-center gap-2">
+            <School size={30} />
+            <h1 className="hidden md:block font-extrabold text-2xl">
+              StudyNest
+            </h1>
+          </div>
+        </Link>
 
         {/* Right side */}
         <div className="flex items-center gap-8">
@@ -98,7 +98,7 @@ const Navbar = () => {
                     <>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
-                        <Link to="/dashboard">Dashboard</Link>
+                        <Link to="/admin/dashboard">Dashboard</Link>
                       </DropdownMenuItem>
                     </>
                   )
@@ -154,7 +154,7 @@ const MobileNavbar = () => {
           role === 'instructor' && (
             <SheetFooter>
               <SheetClose asChild>
-                <Button type="submit">Dashboard</Button>
+                <Button type="submit" onClick={()=> Navigate("/admin/dashboard")}>Dashboard</Button>
               </SheetClose>
             </SheetFooter>
           )
@@ -167,6 +167,5 @@ const MobileNavbar = () => {
 
 const initialState = {
   user: null,
-  loading: true, // add this
-  // ...other state...
+  loading: true,
 };

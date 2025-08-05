@@ -12,45 +12,48 @@ import {
 } from "@/components/ui/select";
 import { useCreateCourseMutation } from "@/features/api/courseApi";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const AddCourse = () => {
-    const [courseTitle, setCourseTitle] = useState("");
-    const [category, setCategory] = useState("");
-    const [createCourse, {data, isLoading, error, isSuccess}] = useCreateCourseMutation();
+  const [courseTitle, setCourseTitle] = useState("");
+  const [category, setCategory] = useState("");
 
-    const navigate = useNavigate();
+  const [createCourse, { data, isLoading, error, isSuccess }] =
+    useCreateCourseMutation();
 
-    const createCourseHandler = async () => {
-       await createCourse({courseTitle, category});
-    }
+  const navigate = useNavigate();
 
-     // for displaying toast
-    useEffect(()=>{
-        if(isSuccess){
-            toast.success(data?.message || "Course created.");
-            navigate("/admin/course");
-        }
-    },[isSuccess, error])
-
-    const getSelectedCategory = (value) => {
-        setCategory(value);
+  const getSelectedCategory = (value) => {
+    setCategory(value);
   };
+
+  const createCourseHandler = async () => {
+    await createCourse({ courseTitle, category });
+  };
+
+  // for displaying toast
+  useEffect(()=>{
+    if(isSuccess){
+        toast.success(data?.message || "Course created.");
+        navigate("/admin/course");
+    }
+  },[isSuccess, error])
+
   return (
-     <div className="flex-1 mx-10">
+    <div className="flex-1 mx-10">
       <div className="mb-4">
         <h1 className="font-bold text-xl">
           Lets add course, add some basic course details for your new course
         </h1>
-        {/* <p className="text-sm">
+        <p className="text-sm">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus,
           laborum!
-        </p> */}
+        </p>
       </div>
       <div className="space-y-4">
-        <div className="space-y-2"> 
+        <div>
           <Label>Title</Label>
           <Input
             type="text"
@@ -59,7 +62,7 @@ const AddCourse = () => {
             placeholder="Your Course Name"
           />
         </div>
-        <div className="space-y-1">
+        <div>
           <Label>Category</Label>
           <Select onValueChange={getSelectedCategory}>
             <SelectTrigger className="w-[180px]">
@@ -105,7 +108,7 @@ const AddCourse = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddCourse
+export default AddCourse;

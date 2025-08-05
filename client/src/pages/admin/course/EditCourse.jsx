@@ -6,7 +6,7 @@ import CourseTab from './CourseTab'
 export default function EditCourse() {
     return (
         <div className="flex-1">
-            <div className='flex items-cemter justify-between mb-5'>
+            <div className='flex items-center justify-between mb-5'>
                 <h1 className='font-bold text-xl'>Add detail information regarding course</h1>
                 <Link to="lecture">
                     <Button className="hover:text-blue-600" variant='link'>Go to lectures page </Button></Link>
