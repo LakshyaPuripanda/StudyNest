@@ -1,75 +1,47 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const courseSchema = new mongoose.Schema({
-    courseTitle: {
-        type: String,
-        required: true
+    courseTitle:{
+        type:String,
+        required:true
     },
-    subTitle: {
-        type: String,
+    subTitle: {type:String}, 
+    description:{ type:String},
+    category:{
+        type:String,
+        required:true
     },
-    description: {
-        type: String,
+    courseLevel:{
+        type:String,
+        enum:["Beginner", "Medium", "Advance"]
     },
-    category: {
-        type: String,
-        required: true
+    coursePrice:{
+        type:Number
     },
-    courseLevel: {
-        type: String,
-        enum: ["Beginner", "Medium", "Advance"],
-        default: "Beginner"
-     },
-    coursePrice: {
-        type: Number,
+    courseThumbnail:{
+        type:String
     },
-    courseThumbnail: {
-        type: String,
-        
-    },
-    enrolledStudents: [
+    enrolledStudents:[
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
         }
     ],
-    lectures: [
-        { 
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Lecture'  
+    lectures:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Lecture"
         }
     ],
-    creator: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        // required: true
+    creator:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
     },
-    isPublished: {
-        type: Boolean,
-        default: false
+    isPublished:{
+        type:Boolean,
+        default:false
     }
 
-    // courseImage: {
-    //     type: String,
-    //     default: ""
-    // },
-    // courseVideo: {
-    //     type: String,
-    //     default: ""
-    // },
-    // courseContent: {
-    //     type: String,
-    //     default: ""
-    // },
-    // courseDuration: {
-    //     type: String,
-    //     default: "0"
-    // },
-    // courseRating: {
-    //     type: Number,
-    //     default: 0
-    // },
-}, { timestamps: true });
+}, {timestamps:true});
 
 export const Course = mongoose.model("Course", courseSchema);
-export default Course;
