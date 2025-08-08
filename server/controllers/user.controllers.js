@@ -75,7 +75,7 @@ export const login = async (req, res) => {
 
         return res.status(500).json({
             success: false,
-            message: "Failed to register"
+            message: "Failed to Login"
         })
     }
 }
