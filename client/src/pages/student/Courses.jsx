@@ -1,10 +1,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 import Course from "./Course";
- 
-const courses = [1,2,3,4,5,6];
+
 const Courses = () => {
   const isLoading = false;
+  const courses = [1,2,3,4,5,6];// Either use this array or remove if not needed
+  const data = { courses }; // now data?.courses works
+
   return (
     <div className="bg-gray-50 dark:bg-[#141414]">
       <div className="max-w-7xl mx-auto p-6">
@@ -15,7 +17,7 @@ const Courses = () => {
               <CourseSkeleton key={index} />
             ))
           ) : (
-            courses.map((course, index) => <Course key = {index}/>)
+            data?.courses && data.courses.map((course, index) => <Course key={index} course={course} />)
           )}
         </div>
       </div>
