@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const isAuthenticated = async (req, res, next) => {
+    console.log("Auth middleware triggered");
     try {
         const token = req.cookies.token;
         if (!token) {
@@ -11,6 +12,12 @@ const isAuthenticated = async (req, res, next) => {
         }
 
         const decode = jwt.verify(token, process.env.SECRET_KEY);
+        if (!decode) {
+            return res.status(401).json({
+                message: "Invalid token",
+                success: false,
+            });
+        }
         req.id = decode.userId; // use req.user instead of req.id
         next();
 

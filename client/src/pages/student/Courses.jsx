@@ -1,11 +1,13 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 import Course from "./Course";
+import { useGetPublishedCourseQuery } from "@/features/api/courseApi";
+
 
 const Courses = () => {
-  const isLoading = false;
-  const courses = [1,2,3,4,5,6];// Either use this array or remove if not needed
-  const data = { courses }; // now data?.courses works
+  const {data, isLoading, isError} = useGetPublishedCourseQuery();
+
+    if(isError) return <h1>Some error occurred while fetching courses.</h1>
 
   return (
     <div className="bg-gray-50 dark:bg-[#141414]">
