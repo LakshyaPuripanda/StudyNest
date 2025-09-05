@@ -16,10 +16,14 @@ const CourseDetail = () => {
     const { data, isLoading, isError } =
         useGetCourseDetailWithStatusQuery(courseId);
 
+    console.log("Full API Response:", data);
+
     if (isLoading) return <h1>Loading...</h1>;
     if (isError) return <h>Failed to load course details</h>;
 
     const { course, purchased } = data;
+
+    console.log(course);
 
     const handleContinueCourse = () => {
         if (purchased) {
@@ -77,9 +81,7 @@ const CourseDetail = () => {
                                         url={course.lectures[0].videoUrl}
                                         controls={true}
                                 />
-                                {/* {course?.courseThumbnail && (
-                                    <img src={course.courseThumbnail} alt="Course Thumbnail" className="w-full h-full object-cover rounded" />
-                                )} */}
+                                {/* {console.log("Video URL:", course?.lectures?.[0]?.videoUrl)}; */}
                             </div>
                             <div>
                                 <h1>{course?.lectures?.[0]?.title || "Lecture title"}</h1>
@@ -93,9 +95,9 @@ const CourseDetail = () => {
                         </CardContent>
                         <CardFooter className="flex justify-between items-center">
                             {purchased ? (
-                                <Button onClick={handleContinueCourse} className="bg-[white] text-black w-1/2 hover:bg-[grey] transition-colors">Go to Course</Button>
+                                <Button onClick={handleContinueCourse} className="bg-[white] text-black w-1/2 hover:bg-[grey] transition-colors">Continue Course</Button>
                             ) : (
-                                <BuyCourseButton courseId={courseId} />
+                                <BuyCourseButton courseId={courseId} /> 
                             )}
                             <span className="text-sm">
                                 Last updated {course?.updatedAt ? new Date(course.updatedAt).toLocaleDateString() : ""}

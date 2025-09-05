@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
 import { useEditLectureMutation, useGetLectureByIdQuery, useRemoveLectureMutation } from "@/features/api/courseApi";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
@@ -147,7 +149,7 @@ const LectureTab = () => {
           />
         </div>
         <div className="flex items-center space-x-2 my-5">
-          {/* <Switch checked={isFree} onCheckedChange={setIsFree} id="airplane-mode" /> */}
+          <Switch checked={isFree} onCheckedChange={setIsFree} id="airplane-mode" />
           <Label htmlFor="airplane-mode">Is this video FREE</Label>
         </div>
 
