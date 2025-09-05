@@ -1,4 +1,4 @@
-import { AppWindowIcon, CodeIcon, Loader2 } from "lucide-react"
+import {Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -150,7 +150,7 @@ const Login = () => {
                                     name="email"
                                     value={loginInput.email}
                                     onChange={(e) => changeInputHandler(e, "login")}
-                                    placeholder="username or Email"
+                                    placeholder="Email"
                                     autoComplete="off"
                                     required
                                     className="uiverse-input"

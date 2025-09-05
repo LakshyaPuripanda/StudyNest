@@ -4,7 +4,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Separator,
@@ -72,40 +71,61 @@ const Navbar = () => {
         <div className="flex items-center gap-8">
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer">
-                  <Avatar className="w-full h-full">
-                    <AvatarImage
-                      src={user?.photoUrl || "https://github.com/shadcn.png"}
-                      alt="@shadcn"
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                    <AvatarFallback className="w-full h-full flex items-center justify-center bg-gray-200 text-sm rounded-full">
-                      CN
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 mt-2" align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuGroup>
-                  <DropdownMenuItem> <Link to="my-learning">My Learning</Link></DropdownMenuItem>
-                  <DropdownMenuItem> <Link to="profile">Edit Profile</Link> </DropdownMenuItem>
-                  <DropdownMenuItem onClick={logoutHandler}>Log out</DropdownMenuItem>
-                </DropdownMenuGroup>
-                {
-                  user?.role === 'instructor' && (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <Link to="/admin/dashboard">Dashboard</Link>
-                      </DropdownMenuItem>
-                    </>
-                  )
-                }
+  <DropdownMenuTrigger asChild>
+    <div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer">
+      <Avatar className="w-full h-full">
+        <AvatarImage
+          src={user?.photoUrl || "https://github.com/shadcn.png"}
+          alt="@shadcn"
+          className="w-full h-full object-cover rounded-full"
+        />
+        <AvatarFallback className="w-full h-full flex items-center justify-center bg-gray-200 text-sm rounded-full">
+          CN
+        </AvatarFallback>
+      </Avatar>
+    </div>
+  </DropdownMenuTrigger>
 
-              </DropdownMenuContent>
-            </DropdownMenu>
+  <DropdownMenuContent
+    className="w-56 mt-2 rounded-xl shadow-lg p-2
+               bg-white dark:bg-[#111829]
+               border border-gray-200 dark:border-gray-700"
+    align="end"
+  >
+    <DropdownMenuGroup>
+      <DropdownMenuItem
+        className="px-4 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+      >
+        <Link to="my-learning">My Learning</Link>
+      </DropdownMenuItem>
+
+      <DropdownMenuItem
+        className="px-4 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+      >
+        <Link to="profile">Edit Profile</Link>
+      </DropdownMenuItem>
+
+      <DropdownMenuItem
+        onClick={logoutHandler}
+        className="px-4 py-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer transition-colors text-red-600 dark:text-red-400"
+      >
+        Log out
+      </DropdownMenuItem>
+    </DropdownMenuGroup>
+
+    {user?.role === "instructor" && (
+      <>
+        <DropdownMenuSeparator className="my-2 border-gray-200 dark:border-gray-700" />
+        <DropdownMenuItem
+          className="px-4 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+        >
+          <Link to="/admin/dashboard">Dashboard</Link>
+        </DropdownMenuItem>
+      </>
+    )}
+  </DropdownMenuContent>
+</DropdownMenu>
+
           ) : (
             <div className="flex items-center gap-2">
               <Button variant="outline" onClick={() => navigate("/login")}>Login</Button>
@@ -163,9 +183,4 @@ const MobileNavbar = () => {
       </SheetContent>
     </Sheet>
   );
-};
-
-const initialState = {
-  user: null,
-  loading: true,
 };
