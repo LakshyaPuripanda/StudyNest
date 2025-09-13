@@ -36,7 +36,7 @@ const CourseTab = () => {
         subTitle: "",
         description: "",
         category: "",
-        courseLevel: "",
+        courseLevel: "Beginner",
         coursePrice: "",
         courseThumbnail: "",
     });

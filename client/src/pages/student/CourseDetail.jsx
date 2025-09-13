@@ -16,14 +16,12 @@ const CourseDetail = () => {
     const { data, isLoading, isError } =
         useGetCourseDetailWithStatusQuery(courseId);
 
-    console.log("Full API Response:", data);
-
     if (isLoading) return <h1>Loading...</h1>;
     if (isError) return <h>Failed to load course details</h>;
 
     const { course, purchased } = data;
 
-    console.log(course);
+    console.log("Course Title:",course);
 
     const handleContinueCourse = () => {
         if (purchased) {
@@ -78,13 +76,14 @@ const CourseDetail = () => {
                                 <ReactPlayer
                                         width="100%"
                                         height={"100%"}
-                                        url={course.lectures[0].videoUrl}
+                                        src={course?.lectures?.[0]?.videoUrl}
                                         controls={true}
                                 />
-                                {/* {console.log("Video URL:", course?.lectures?.[0]?.videoUrl)}; */}
+                                
+                                {console.log("Lecture title:", course?.lectures?.[0]?.lectureTitle)}
                             </div>
                             <div>
-                                <h1>{course?.lectures?.[0]?.title || "Lecture title"}</h1>
+                                <h1>{course?.lectures?.[0]?.lectureTitle || "Lecture title"}</h1>
                                 <Separator className="my-2" />
                                 <h1 className="text-lg md:text-xl font-semiobold">
                                     {(!course?.coursePrice || course.coursePrice <= 0)
