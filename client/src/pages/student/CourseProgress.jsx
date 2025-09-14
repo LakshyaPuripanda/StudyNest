@@ -100,26 +100,34 @@ const CourseProgress = () => {
         {/* Video section  */}
         <div className="flex-1 md:w-3/5 h-fit rounded-lg shadow-lg p-4">
           <div>
-            <video
-              src={currentLecture?.videoUrl || initialLecture.videoUrl}
-              controls
-              className="w-full h-auto md:rounded-lg"
-              onPlay={() =>
-                handleLectureProgress(currentLecture?._id || initialLecture._id)
-              }
-            />
+          {currentLecture?.videoUrl || initialLecture?.videoUrl ? (
+              <video
+                src={currentLecture?.videoUrl || initialLecture?.videoUrl}
+                controls
+                className="w-full h-auto md:rounded-lg"
+                onPlay={() =>
+                  handleLectureProgress(
+                    currentLecture?._id || initialLecture?._id
+                  )
+                }
+              />
+            ) : (
+              <p>No video available</p>
+            )}
           </div>
           {/* Display current watching lecture title */}
-          <div className="mt-2 ">
-            <h3 className="font-medium text-lg">
-              {`Lecture ${courseDetails.lectures.findIndex(
-                (lec) =>
-                  lec._id === (currentLecture?._id || initialLecture._id)
-              ) + 1
-                } : ${currentLecture?.lectureTitle || initialLecture.lectureTitle
-                }`}
-            </h3>
-          </div>
+         {(currentLecture?.lectureTitle || initialLecture?.lectureTitle) && (
+            <div className="mt-2">
+              <h3 className="font-medium text-lg">
+                {`Lecture ${
+                  courseDetails?.lectures?.findIndex(
+                    (lec) =>
+                      lec._id === (currentLecture?._id || initialLecture?._id)
+                  ) + 1
+                }: ${currentLecture?.lectureTitle || initialLecture?.lectureTitle}`}
+              </h3>
+            </div>
+          )}
         </div>
         {/* Lecture Sidebar  */}
         <div className="flex flex-col w-full md:w-2/5 border-t md:border-t-0 md:border-l border-gray-200 md:pl-4 pt-4 md:pt-0">

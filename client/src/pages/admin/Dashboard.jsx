@@ -14,8 +14,8 @@ const Dashboard = () => {
   const { purchasedCourse } = data || [];
 
   const courseData = purchasedCourse.map((course) => ({
-    name: course.courseId.courseTitle,
-    price: course.courseId.coursePrice,
+    name: course?.courseId?.courseTitle || "Unknown",  // ✅ safe access
+    price: course?.courseId?.coursePrice || 0,         // ✅ safe access
   }))
 
 
