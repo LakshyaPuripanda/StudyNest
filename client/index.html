@@ -1,13 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <!-- School building emoji favicon 🏫 -->
+    <link rel="icon" href="data:image/svg+xml,
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+        <text y='.9em' font-size='90'>🏫</text>
+      </svg>" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>StudyNest</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Store the original title
+      const originalTitle = "StudyNest";
+
+      // Set default title
+      document.title = originalTitle;
+
+      // Detect when user leaves/returns
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          document.title = "Come Back 😢";
+        } else {
+          document.title = originalTitle;
+        }
+      });
+    </script>
   </body>
 </html>
